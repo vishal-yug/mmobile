@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar core-back-button>
+    <ion-title>SET YOUR PIN</ion-title>
+
+    <ion-buttons end>
+      <button *ngIf="isFixedUrlSet" ion-button icon-only [navPush]="'CoreSettingsListPage'"
+        [attr.aria-label]="'core.mainmenu.appsettings' | translate">
+        <ion-icon name="cog"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="core-center-view">
+  <core-loading [hideUntil]="pageLoaded">
+    <div class="box">
+      <form ion-list [formGroup]="credForm" (ngSubmit)="SetPIN()">
+        <ion-item>
+          <core-show-password item-content [name]="'setpin'">
+            <ion-input class="core-ioninput-password" name="setpin" type="password" placeholder="Set Your 6 Digit Pin"
+              formControlName="setpin" core-show-password [clearOnEdit]="false"></ion-input>
+          </core-show-password>
+        </ion-item>
+        <ion-item>
+          <core-show-password item-content [name]="'confirmpin'">
+            <ion-input class="core-ioninput-password" name="confirmpin" type="password" placeholder="Confirm Your 6 digit Pin"
+              formControlName="confirmpin" core-show-password [clearOnEdit]="false"></ion-input>
+          </core-show-password>
+        </ion-item>
+        <button ion-button block
+          [disabled]="!credForm.valid">SET PIN</button>
+      </form>
+    </div>
+  </core-loading>
+</ion-content>

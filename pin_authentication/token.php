@@ -15,12 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Return token
- * @package    moodlecore
- * @copyright  2011 Dongsheng Cai <dongsheng@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 define('AJAX_SCRIPT', true);
 define('REQUIRE_CORRECT_ACCESS', true);
 define('NO_MOODLE_COOKIES', true);

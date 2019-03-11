@@ -15,8 +15,9 @@
 
 
 require_once($CFG->libdir . "/externallib.php");
+require_once($CFG->libdir . "/moodlelib.php");
 
-class local_verify_mobile_send_otp extends external_api {
+class local_set_user_pin extends external_api {
 
   /**
    * Returns description of method parameters
@@ -24,11 +25,10 @@ class local_verify_mobile_send_otp extends external_api {
    * @return external_function_parameters
    * @since Moodle 2.3
    */
-  public static function verify_mobile_send_otp_parameters() {
+  public static function set_user_pin_parameters() {
     return new external_function_parameters(
         array(
-      'pfnumber' => new external_value(PARAM_ALPHANUM, 'pf number of the employee'),
-      'phone_number' => new external_value(PARAM_ALPHANUM, 'Mobile number of the user to verify in records and sent the OTP'),
+      'pin' => new external_value(PARAM_ALPHANUM, 'pf number of the employee'),
         )
     );
   }
@@ -37,50 +37,35 @@ class local_verify_mobile_send_otp extends external_api {
    * Verify the Mobile number
    *
    * Function throw an exception at the first error encountered.
-   * @param $pfnumber of employee
-   * @param mobile number of employee
+   * @param $pin to enter in the database
    */
-  public static function verify_mobile_send_otp($pfnumber, $phone_number) {
-    global $DB, $CFG;
+  public static function set_user_pin($pin) {
+    global $DB, $CFG, $USER;
     $result = array();
     $result['status'] = false;
     $arrayparams = array(
-      'pfnumber' => $pfnumber,
-      'phone_number' => $phone_number,
+      'pin' => $pin,
     );
-    $params = self::validate_parameters(self::verify_mobile_send_otp_parameters(), $arrayparams);
-    $pfnumber = $params['pfnumber'];
-    $phone_number = $params['phone_number'];
-    $user = $DB->get_record('user', array('idnumber' => $pfnumber), '*', null);
-    if (empty($user)) {  //IF user record not found
-      $message = 'No user is find in records with this PF Number';
+    $params = self::validate_parameters(self::set_user_pin_parameters(), $arrayparams);
+    $pin = hash_internal_user_password($params['pin']);
+    $dataobj = new stdClass();
+    $dataobj->id = $USER->id;
+    $dataobj->pin = $pin;
+    if($DB->update_record('user',$dataobj)){
+    $result['status'] = true;
     }
-    else if (empty($user->phone2)) {  //if phone number is not there with the record
-      $message = 'Phone Number does not exist for this user';
-    }
-    else if ($user->phone2 != $phone_number) { //if provided number doesn't match with the existing mumber
-      $message = 'Phone number you have provided is not matched with the existing record';
-    }
-
-    else if ($user->phone2 == $phone_number) { //if number match with the existing number
-      $result['status'] = true;
-      $message = "Please Enter the OTP send to your given number";
-    }
-
-    $result['message'] = $message;
     return $result;
   }
 
   /**
    * Returns description of method result value
    *
-   * @return Status and message to show the user
+   * @return Status to show the user
    */
-  public static function verify_mobile_send_otp_returns() {
+  public static function set_user_pin_returns() {
     return new external_single_structure(
         array(
       'status' => new external_value(PARAM_BOOL, 'status, true if success'),
-      'message' => new external_value(PARAM_TEXT, 'message to send for the user'),
         )
     );
   }
