@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar core-back-button>
-    <ion-title>{{ 'core.login.login' | translate }}</ion-title>
+    <ion-title>Get OTP</ion-title>
 
     <ion-buttons end>
       <button *ngIf="isFixedUrlSet" ion-button icon-only [navPush]="'CoreSettingsListPage'"
@@ -30,11 +30,14 @@
         <ion-item *ngIf="siteChecked && !isBrowserSSO">
           <ion-input type="text" name="pfnumber" placeholder="PF Number" formControlName="pfnumber"></ion-input>
         </ion-item>
-        <ion-item *ngIf="siteChecked && !isBrowserSSO" margin-bottom>
-            <ion-input name="phone_number" type="numeric" placeholder="Mobile Number" formControlName="phone_number" ></ion-input>
+        <ion-item text-wrap>
+          <ion-select item-start [(ngModel)]="country" name="country" formControlName="country" placeholder= "Country Code">
+              <ion-option *ngFor="let c of countries" value="{{c.code}}">{{c.code}}</ion-option>
+          </ion-select>
+          <ion-input item-end name="phone_number" id="phone_number" type="number" pattern="[0-9]*" placeholder="Mobile Number" formControlName="phone_number" ></ion-input>
         </ion-item>
         <button ion-button block
-          [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">Send OTP</button>
+          [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">CLICK TO GET ONE TIME PASSWORD (OTP)</button>
       </form>
     </div>
   </core-loading>

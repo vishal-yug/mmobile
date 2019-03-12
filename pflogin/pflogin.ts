@@ -192,12 +192,17 @@ export class PfLoginCredentialsPage {
         }
 
         if (!pfnumber) {
-            this.domUtils.showErrorModal('PF Number Required', true);
+            this.domUtils.showErrorModal('PF number is required', true);
 
             return;
         }
         if (!pin) {
-            this.domUtils.showErrorModal('Required 6 Digit Pin', true);
+            this.domUtils.showErrorModal('PIN is required', true);
+
+            return;
+        }
+        if (pin.length != 6) {
+            this.domUtils.showErrorModal('Invalid PIN, please try again.', true);
 
             return;
         }
@@ -235,6 +240,8 @@ export class PfLoginCredentialsPage {
                 }
             });
         }).catch((error) => {
+// tslint:disable-next-line: no-console
+            console.log(error);
             this.loginHelper.treatUserTokenError(siteUrl, error, pfnumber, pin);
         }).finally(() => {
             modal.dismiss();

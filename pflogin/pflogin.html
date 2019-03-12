@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar core-back-button>
-    <ion-title>{{ 'core.login.login' | translate }}</ion-title>
+    <ion-title>Login</ion-title>
 
     <ion-buttons end>
       <button *ngIf="isFixedUrlSet" ion-button icon-only [navPush]="'CoreSettingsListPage'"
@@ -33,19 +33,19 @@
         </ion-item>
         <ion-item *ngIf="siteChecked && !isBrowserSSO" margin-bottom>
           <core-show-password item-content [name]="'pin'">
-            <ion-input class="core-ioninput-password" name="pin" type="password"
-              placeholder="Your 6-Digit-Pin" formControlName="pin" core-show-password
+            <ion-input class="core-ioninput-password" name="pin" type="password" pattern="[0-9]*"
+              placeholder="PIN" maxlength="6" formControlName="pin" core-show-password
               [clearOnEdit]="false"></ion-input>
           </core-show-password>
         </ion-item>
         <button ion-button block
-          [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">{{ 'core.login.loginbutton' | translate }}</button>
+          [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">Login</button>
       </form>
 
       <!-- Forgotten password button. -->
       <div padding-top>
         <button ion-button block text-wrap color="light"
-          (click)="firstTimeLogin()">First Time Login/Forgot Pin</button>
+          (click)="firstTimeLogin()">Forgot Pin Or New Pin?</button>
       </div>
 
     </div>

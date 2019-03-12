@@ -41,6 +41,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class OtpscreenPage {
   credForm: FormGroup;
   siteUrl: string;
+  pfnumber: string;
+  phone_number: string;
   siteChecked = false;
   siteName: string;
   logoUrl: string;
@@ -66,6 +68,8 @@ export class OtpscreenPage {
     this.siteUrl = navParams.get('siteUrl');
     this.siteConfig = navParams.get('siteConfig');
     this.urlToOpen = navParams.get('urlToOpen');
+    this.pfnumber = navParams.get('pfnumber');
+    this.phone_number = navParams.get('phone_number');
 
     this.credForm = fb.group({
       otp: ['', Validators.required]
@@ -165,14 +169,58 @@ export class OtpscreenPage {
     }
   }
 
+
   /**
    * Tries to authenticate the user.
    *
    * @param {Event} [e] Event.
    */
-  LoginOTP(e?: Event): void {
-    
-  }
+  LoginUsingOTP(e?: Event): Promise<void> {
 
+    // Get input data.
+    const siteUrl = this.siteUrl,
+      otp = this.credForm.value.otp;
+
+    if (!otp) {
+      this.domUtils.showErrorModal('OTP is required', true);
+      return;
+    }
+   
+    if (otp.length != 6) {
+      this.domUtils.showErrorModal('Invalid OTP, please try again.', true);
+      return;      
+    }
+
+    const modal = this.domUtils.showModalLoading();
+
+    // Start the authentication process.
+    this.sitesProvider.getUserTokenFromPin(siteUrl, this.pfnumber, otp, true).then((data) => {
+        return this.sitesProvider.newSite(data.siteUrl, data.token, data.privateToken).then((id) => {
+            this.credForm.controls['otp'].reset();
+            this.siteId = id;
+
+            if (this.urlToOpen) {
+                // There's a content link to open.
+                return this.contentLinksDelegate.getActionsFor(this.urlToOpen, undefined, this.pfnumber).then((actions) => {
+                    const action = this.contentLinksHelper.getFirstValidAction(actions);
+                    if (action && action.sites.length) {
+                        // Action should only have 1 site because we're filtering by username.
+                        action.action(action.sites[0]);
+                    } else {
+                        return this.loginHelper.goToSiteInitialPage();
+                    }
+                });
+            } else {
+                return this.loginHelper.goToSiteInitialPage();
+            }
+        });
+    }).catch((error) => {
+// tslint:disable-next-line: no-console
+        console.log(error);
+        this.loginHelper.treatUserTokenError(siteUrl, error, this.pfnumber, otp);
+    }).finally(() => {
+        modal.dismiss();
+    });
+  }
 }
 

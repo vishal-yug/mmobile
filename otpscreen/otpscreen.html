@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar core-back-button>
-    <ion-title>{{ 'core.login.login' | translate }}</ion-title>
+    <ion-title>Enter the Code</ion-title>
 
     <ion-buttons end>
       <button *ngIf="isFixedUrlSet" ion-button icon-only [navPush]="'CoreSettingsListPage'"
@@ -26,11 +26,14 @@
         </p>
         <p *ngIf="siteName" class="core-siteurl">{{siteUrl}}</p>
       </div>
-      <form ion-list [formGroup]="credForm" (ngSubmit)="LoginOTP($event)">
+      <p>
+        Enter the 6-digit verification code to confirm you got the text message
+      </p>
+      <form ion-list [formGroup]="credForm" (ngSubmit)="LoginUsingOTP($event)">
         <ion-item *ngIf="siteChecked && !isBrowserSSO" margin-bottom>
-          <ion-input name="otp" type="numeric" placeholder="Enter OTP" formControlName="otp"></ion-input>
+          <ion-input name="otp" type="number" pattern="[0-9]*" placeholder="6-digit code" maxlength="6" formControlName="otp"></ion-input>
         </ion-item>
-        <button ion-button block [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">{{ 'core.login.loginbutton' | translate }}</button>
+        <button ion-button block [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">Login Using OTP</button>
       </form>
     </div>
   </core-loading>
