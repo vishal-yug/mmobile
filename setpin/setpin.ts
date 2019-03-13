@@ -41,11 +41,12 @@ export class SetpinPage {
   protected siteId: string;
   protected urlToOpen: string;
 
-  constructor(private navCtrl: NavController, fb: FormBuilder, private appProvider: CoreAppProvider,
+  constructor(private navCtrl: NavController, navParams: NavParams, fb: FormBuilder, private appProvider: CoreAppProvider,
     private sitesProvider: CoreSitesProvider, private loginHelper: CoreLoginHelperProvider,
     private domUtils: CoreDomUtilsProvider, private translate: TranslateService, 
     private eventsProvider: CoreEventsProvider) {
 
+    this.siteUrl = navParams.get('siteUrl');
 
     this.credForm = fb.group({
       setpin: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
@@ -87,7 +88,7 @@ export class SetpinPage {
   protected checkSite(siteUrl: string): Promise<any> {
     this.pageLoaded = false;
 
-    siteUrl = CoreConfigConstants.siteurl;
+    // siteUrl = CoreConfigConstants.siteurl;
     // If the site is configured with http:// protocol we force that one, otherwise we use default mode.
     const protocol = siteUrl.indexOf('http://') === 0 ? 'http://' : undefined;
 

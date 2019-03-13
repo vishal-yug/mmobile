@@ -31,10 +31,12 @@
       </p>
       <form ion-list [formGroup]="credForm" (ngSubmit)="LoginUsingOTP($event)">
         <ion-item *ngIf="siteChecked && !isBrowserSSO" margin-bottom>
-          <ion-input name="otp" type="number" pattern="[0-9]*" placeholder="6-digit code" maxlength="6" formControlName="otp"></ion-input>
+          <ion-input name="otp" type="number" pattern="[0-9]*" placeholder="6-digit code" maxlength="6"
+            formControlName="otp"></ion-input>
         </ion-item>
-        <button ion-button block [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">Login Using OTP</button>
+        <button ion-button block [disabled]="!credForm.valid">Login Using OTP</button>
       </form>
+      <button ion-button block (click)="resendOtp()">Resend OTP</button>
     </div>
   </core-loading>
 </ion-content>

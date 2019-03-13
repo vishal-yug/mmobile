@@ -25,6 +25,9 @@ import { CoreLoginHelperProvider } from '../../providers/helper';
 import { CoreContentLinksDelegate } from '@core/contentlinks/providers/delegate';
 import { CoreContentLinksHelperProvider } from '@core/contentlinks/providers/helper';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { CoreConstants } from '@core/constants';
+import { CoreConfigConstants } from '../../../../configconstants';
 
 /**
  * Generated class for the OtploginPage page.
@@ -43,6 +46,7 @@ export class OtpscreenPage {
   siteUrl: string;
   pfnumber: string;
   phone_number: string;
+  country: string;
   siteChecked = false;
   siteName: string;
   logoUrl: string;
@@ -63,16 +67,17 @@ export class OtpscreenPage {
     private sitesProvider: CoreSitesProvider, private loginHelper: CoreLoginHelperProvider,
     private domUtils: CoreDomUtilsProvider, private translate: TranslateService, private utils: CoreUtilsProvider,
     private eventsProvider: CoreEventsProvider, private contentLinksDelegate: CoreContentLinksDelegate,
-    private contentLinksHelper: CoreContentLinksHelperProvider) {
+    private contentLinksHelper: CoreContentLinksHelperProvider, private http: HttpClient) {
 
     this.siteUrl = navParams.get('siteUrl');
     this.siteConfig = navParams.get('siteConfig');
     this.urlToOpen = navParams.get('urlToOpen');
     this.pfnumber = navParams.get('pfnumber');
     this.phone_number = navParams.get('phone_number');
+    this.country = navParams.get('country');
 
     this.credForm = fb.group({
-      otp: ['', Validators.required]
+      otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     });
   }
 
@@ -109,7 +114,7 @@ export class OtpscreenPage {
    */
   protected checkSite(siteUrl: string): Promise<any> {
     this.pageLoaded = false;
-
+    siteUrl = CoreConfigConstants.siteurl;
     // If the site is configured with http:// protocol we force that one, otherwise we use default mode.
     const protocol = siteUrl.indexOf('http://') === 0 ? 'http://' : undefined;
 
@@ -207,11 +212,11 @@ export class OtpscreenPage {
                         // Action should only have 1 site because we're filtering by username.
                         action.action(action.sites[0]);
                     } else {
-                        return this.loginHelper.goToSiteInitialPage();
+                      this.navCtrl.push('SetpinPage', { siteUrl: this.siteUrl, siteConfig: this.siteConfig });
                     }
                 });
             } else {
-                return this.loginHelper.goToSiteInitialPage();
+              this.navCtrl.push('SetpinPage', { siteUrl: this.siteUrl, siteConfig: this.siteConfig});
             }
         });
     }).catch((error) => {
@@ -220,6 +225,32 @@ export class OtpscreenPage {
         this.loginHelper.treatUserTokenError(siteUrl, error, this.pfnumber, otp);
     }).finally(() => {
         modal.dismiss();
+    });
+  }
+
+  resendOtp(): Promise<void> {
+
+    const params = {
+      pfnumber: this.pfnumber,
+      phone_number: this.country + ',' + this.phone_number
+    };
+ 
+    const modal = this.domUtils.showModalLoading();
+
+    const promise = this.http.post(this.siteUrl + '/local/pin_authentication/pf-mobile-auth.php', params).timeout(CoreConstants.WS_TIMEOUT).toPromise();
+
+    return promise.catch(() => {
+      return Promise.reject({ error: this.translate.instant('core.cannotconnect') });
+    }).then((data: any) => {
+      if (typeof data == 'undefined') {
+        return Promise.reject(this.translate.instant('core.cannotconnect'));
+      } else if (typeof data.success != 'undefined' && !data.success) {
+        this.domUtils.showErrorModal(data.error_message);
+      } else {
+        this.domUtils.showConfirm('OTP is send to your registeres mobile number', 'OTP Send' );
+      }
+    }).finally(() => {
+      modal.dismiss();
     });
   }
 }
