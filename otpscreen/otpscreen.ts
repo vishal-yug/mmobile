@@ -47,6 +47,7 @@ export class OtpscreenPage {
   pfnumber: string;
   phone_number: string;
   country: string;
+  timeLeft:number;
   siteChecked = false;
   siteName: string;
   logoUrl: string;
@@ -75,10 +76,17 @@ export class OtpscreenPage {
     this.pfnumber = navParams.get('pfnumber');
     this.phone_number = navParams.get('phone_number');
     this.country = navParams.get('country');
+    this.timeLeft = 60;
 
     this.credForm = fb.group({
       otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     });
+
+    setInterval(() => {
+      if(this.timeLeft){
+      this.timeLeft--;
+      }
+    }, 1000);
   }
 
   /**
@@ -248,6 +256,7 @@ export class OtpscreenPage {
         this.domUtils.showErrorModal(data.error_message);
       } else {
         this.domUtils.showConfirm('OTP is send to your registeres mobile number', 'OTP Send' );
+        this.timeLeft = 60;
       }
     }).finally(() => {
       modal.dismiss();

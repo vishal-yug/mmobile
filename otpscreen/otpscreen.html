@@ -27,16 +27,17 @@
         <p *ngIf="siteName" class="core-siteurl">{{siteUrl}}</p>
       </div>
       <p>
-        Enter the 6-digit verification code to confirm you got the text message
+        Enter the 6-digit verification code you got on your Registered Number<br>
+        you can request for new OTP after {{timeLeft}} Seconds
       </p>
       <form ion-list [formGroup]="credForm" (ngSubmit)="LoginUsingOTP($event)">
         <ion-item *ngIf="siteChecked && !isBrowserSSO" margin-bottom>
-          <ion-input name="otp" type="number" pattern="[0-9]*" placeholder="6-digit code" maxlength="6"
-            formControlName="otp"></ion-input>
+          <ion-input name="otp" type="number" pattern="[0-9]*" placeholder="6-digit code" maxlength="6" formControlName="otp">
+          </ion-input>
         </ion-item>
         <button ion-button block [disabled]="!credForm.valid">Login Using OTP</button>
       </form>
-      <button ion-button block (click)="resendOtp()">Resend OTP</button>
-    </div>
-  </core-loading>
-</ion-content>
+      <button ion-button block [disabled]="!(timeLeft == 0)" (click)="resendOtp()">Resend OTP</button>
+      </div>
+      </core-loading>
+  </ion-content>
