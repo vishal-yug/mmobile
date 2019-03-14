@@ -76,7 +76,7 @@ export class OtpscreenPage {
     this.pfnumber = navParams.get('pfnumber');
     this.phone_number = navParams.get('phone_number');
     this.country = navParams.get('country');
-    this.timeLeft = 60;
+    this.timeLeft = 100;
 
     this.credForm = fb.group({
       otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
@@ -256,7 +256,7 @@ export class OtpscreenPage {
         this.domUtils.showErrorModal(data.error_message);
       } else {
         this.domUtils.showConfirm('OTP is send to your registeres mobile number', 'OTP Send' );
-        this.timeLeft = 60;
+        this.timeLeft = 100;
       }
     }).finally(() => {
       modal.dismiss();
