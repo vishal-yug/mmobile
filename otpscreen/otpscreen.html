@@ -1,10 +1,9 @@
 <ion-header>
   <ion-navbar core-back-button>
-    <ion-title>Enter the Code</ion-title>
+    <ion-title>{{'custom.otpscreen.navtitle' | translate}}</ion-title>
 
     <ion-buttons end>
-      <button *ngIf="isFixedUrlSet" ion-button icon-only [navPush]="'CoreSettingsListPage'"
-        [attr.aria-label]="'core.mainmenu.appsettings' | translate">
+      <button *ngIf="isFixedUrlSet" ion-button icon-only [navPush]="'CoreSettingsListPage'" [attr.aria-label]="'core.mainmenu.appsettings' | translate">
         <ion-icon name="cog"></ion-icon>
       </button>
     </ion-buttons>
@@ -19,30 +18,18 @@
         <img *ngIf="!logoUrl" src="assets/img/login_logo.png" class="login-logo" role="presentation">
 
         <!-- If no sitename show big siteurl. -->
-        <p *ngIf="!siteName" padding class="item-heading core-siteurl">{{siteUrl}}</p>
+        <!--<p *ngIf="!siteName" padding class="item-heading core-siteurl">{{siteUrl}}</p>-->
         <!-- If sitename, show big sitename and small siteurl. -->
-        <p *ngIf="siteName" padding class="item-heading core-sitename">
-          <core-format-text [text]="siteName"></core-format-text>
-        </p>
-        <p *ngIf="siteName" class="core-siteurl">{{siteUrl}}</p>
+        <!--<p *ngIf="siteName" padding class="item-heading core-sitename"><core-format-text [text]="siteName"></core-format-text></p>-->
+        <!--<p *ngIf="siteName" class="core-siteurl">{{siteUrl}}</p>-->
       </div>
-      <p>
-        Enter the 6-digit verification code you got on your Registered Number<br>
-        </p>
-        <p *ngIf="(timeLeft > 0)">
-        You can request for new OTP after {{timeLeft}} Seconds
-      </p>
-      <p *ngIf="(timeLeft == 0)">
-        If you haven't received the OTP yet you can now request for new OTP
-      </p>
+      <p>{{'custom.otpscreen.info' | translate}}</p>
       <form ion-list [formGroup]="credForm" (ngSubmit)="LoginUsingOTP($event)">
         <ion-item *ngIf="siteChecked && !isBrowserSSO" margin-bottom>
-          <ion-input name="otp" type="number" pattern="[0-9]*" placeholder="6-digit code" maxlength="6" formControlName="otp">
-          </ion-input>
+          <ion-input name="otp" type="number" pattern="[0-9]*" placeholder="6-digit code" maxlength="6" formControlName="otp"></ion-input>
         </ion-item>
-        <button ion-button block [disabled]="!credForm.valid">Login Using OTP</button>
+        <button ion-button block [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">{{'custom.optscreen.loginbtn' | translate}}</button>
       </form>
-      <button ion-button block [disabled]="!(timeLeft == 0)" (click)="resendOtp()">Resend OTP</button>
-      </div>
-      </core-loading>
-  </ion-content>
+    </div>
+  </core-loading>
+</ion-content>

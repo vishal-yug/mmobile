@@ -1,31 +1,27 @@
 <ion-header>
   <ion-navbar core-back-button>
-    <ion-title>SET YOUR PIN</ion-title>
+    <ion-title>{{'custom.setpin.navtitle' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content class="core-center-view">
-  <core-loading [hideUntil]="pageLoaded">
+  <core-loading [hideUntil]="pageLoaded">      
     <div class="box">
-      <div text-wrap text-center margin-bottom>
-        <!-- Show site logo or a default image. -->
-        <img *ngIf="logoUrl" [src]="logoUrl" role="presentation">
-        <img *ngIf="!logoUrl" src="assets/img/login_logo.png" class="login-logo" role="presentation">
-      </div>
+        <h3 class="text-center"> {{'custom.setpin.info' | translate}} </h3>
       <form ion-list [formGroup]="credForm" (ngSubmit)="SetPIN()">
         <ion-item>
           <core-show-password item-content [name]="'setpin'">
-            <ion-input class="core-ioninput-password" name="setpin" type="password" placeholder="Set Your 6 Digit Pin"
+            <ion-input class="core-ioninput-password" name="setpin" type="password" placeholder="PIN"
               formControlName="setpin" core-show-password [clearOnEdit]="false"></ion-input>
           </core-show-password>
         </ion-item>
         <ion-item>
           <core-show-password item-content [name]="'confirmpin'">
             <ion-input class="core-ioninput-password" name="confirmpin" type="password"
-              placeholder="Confirm Your 6 digit Pin" formControlName="confirmpin" core-show-password
+              placeholder="Confirm PIN" formControlName="confirmpin" core-show-password
               [clearOnEdit]="false"></ion-input>
           </core-show-password>
         </ion-item>
-        <button ion-button block [disabled]="!credForm.valid">SET PIN</button>
+        <button ion-button block [disabled]="!credForm.valid">{{'custom.setpin.btn' | translate}}</button>
       </form>
     </div>
   </core-loading>

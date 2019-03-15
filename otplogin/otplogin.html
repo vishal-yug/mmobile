@@ -1,10 +1,9 @@
 <ion-header>
   <ion-navbar core-back-button>
-    <ion-title>Get OTP</ion-title>
+    <ion-title>{{'custom.otplgoin.navtitle' | translate}} </ion-title>
 
     <ion-buttons end>
-      <button *ngIf="isFixedUrlSet" ion-button icon-only [navPush]="'CoreSettingsListPage'"
-        [attr.aria-label]="'core.mainmenu.appsettings' | translate">
+      <button *ngIf="isFixedUrlSet" ion-button icon-only [navPush]="'CoreSettingsListPage'" [attr.aria-label]="'core.mainmenu.appsettings' | translate">
         <ion-icon name="cog"></ion-icon>
       </button>
     </ion-buttons>
@@ -19,25 +18,22 @@
         <img *ngIf="!logoUrl" src="assets/img/login_logo.png" class="login-logo" role="presentation">
 
         <!-- If no sitename show big siteurl. -->
-        <p *ngIf="!siteName" padding class="item-heading core-siteurl">{{siteUrl}}</p>
+        <!--<p *ngIf="!siteName" padding class="item-heading core-siteurl">{{siteUrl}}</p>-->
         <!-- If sitename, show big sitename and small siteurl. -->
-        <p *ngIf="siteName" padding class="item-heading core-sitename">
-          <core-format-text [text]="siteName"></core-format-text>
-        </p>
-        <p *ngIf="siteName" class="core-siteurl">{{siteUrl}}</p>
+        <!--<p *ngIf="siteName" padding class="item-heading core-sitename"><core-format-text [text]="siteName"></core-format-text></p>-->
+        <!--<p *ngIf="siteName" class="core-siteurl">{{siteUrl}}</p>-->
       </div>
       <form ion-list [formGroup]="credForm" (ngSubmit)="SendOTP($event)">
         <ion-item *ngIf="siteChecked && !isBrowserSSO">
           <ion-input type="text" name="pfnumber" placeholder="PF Number" formControlName="pfnumber"></ion-input>
         </ion-item>
         <ion-item text-wrap>
-          <ion-select item-start [(ngModel)]="country" name="country" formControlName="country" placeholder= "Country Code">
+          <ion-select item-start [(ngModel)]="country" name="country" formControlName="country" placeholder="Country Code">
               <ion-option *ngFor="let c of countries" value="{{c.code}}">{{c.code}}</ion-option>
           </ion-select>
           <ion-input item-end name="phone_number" id="phone_number" type="number" pattern="[0-9]*" placeholder="Mobile Number" formControlName="phone_number" ></ion-input>
         </ion-item>
-        <button ion-button block
-          [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">CLICK TO GET ONE TIME PASSWORD (OTP)</button>
+        <button ion-button block [disabled]="siteChecked && !isBrowserSSO && !credForm.valid">{{'custom.otplogin.btn' | translate}}</button>
       </form>
     </div>
   </core-loading>

@@ -249,10 +249,10 @@ export class PfLoginCredentialsPage {
     }
 
     /**
-     * First time login taken to otplogin page
+     * Forgotten password button clicked.
      */
     firstTimeLogin(): void {
-        // NAvigate to OTP login page
+        // Check if password reset can be done through the app.
         this.navCtrl.push('OtploginPage', { siteUrl: this.siteUrl, siteConfig: this.siteConfig });
     }
 

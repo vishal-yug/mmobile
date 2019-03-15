@@ -247,6 +247,8 @@ export class OtploginPage {
       phone_number: country + ',' +phone_number
     };
     
+    console.log(params);
+
     const modal = this.domUtils.showModalLoading();
 
     const promise = this.http.post(siteUrl + '/local/pin_authentication/pf-mobile-auth.php', params).timeout(CoreConstants.WS_TIMEOUT).toPromise();
@@ -254,13 +256,15 @@ export class OtploginPage {
     return promise.catch(() => {
       return Promise.reject({error: this.translate.instant('core.cannotconnect')});
     }).then((data: any) => {
+      console.log("we received our data");
+      console.log(data);
 
       if (typeof data == 'undefined') {
         return Promise.reject(this.translate.instant('core.cannotconnect'));
       } else if (typeof data.success != 'undefined' && !data.success) {
          this.domUtils.showErrorModal(data.error_message);
       } else {
-        this.navCtrl.push('OtpscreenPage', { siteUrl: this.siteUrl, siteConfig: this.siteConfig, phone_number: phone_number, pfnumber: pfnumber, country: country });
+        this.navCtrl.push('OtpscreenPage', { siteUrl: this.siteUrl, siteConfig: this.siteConfig, phone_number: phone_number, pfnumber: pfnumber });
       }
     }).finally(() => {
       modal.dismiss();

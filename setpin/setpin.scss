@@ -1,7 +1,5 @@
 page-setpin {
-
-    .scroll-content {
-        background: $core-login-page-background-color;
+    .scroll-content {        
     }
 
     img {
@@ -12,12 +10,13 @@ page-setpin {
         width: 90%;
         max-width: 300px;
     }
-
+    .core-loading-loaded{
+        background: $white;
+        border: 1px solid $core-login-box-background-border;
+    }
     .box {
         padding: 16px;
-        margin: 8px;
-        background: $core-login-box-background-color;
-        border: 1px solid $core-login-box-background-border;
+        margin: 8px;        
         color: $core-login-box-text-color;
     }
 
