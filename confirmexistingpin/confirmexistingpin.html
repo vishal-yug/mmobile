@@ -14,6 +14,18 @@
               formControlName="currentpin" core-show-password [clearOnEdit]="false"></ion-input>
           </core-show-password>
         </ion-item>
+                <ion-item>
+                  <core-show-password item-content [name]="'setpin'">
+                    <ion-input class="core-ioninput-password" name="setpin" type="password" placeholder="New PIN" formControlName="setpin"
+                      core-show-password [clearOnEdit]="false"></ion-input>
+                  </core-show-password>
+                </ion-item>
+                <ion-item>
+                  <core-show-password item-content [name]="'confirmpin'">
+                    <ion-input class="core-ioninput-password" name="confirmpin" type="password" placeholder="Confirm New PIN"
+                      formControlName="confirmpin" core-show-password [clearOnEdit]="false"></ion-input>
+                  </core-show-password>
+                </ion-item>
         <button ion-button block [disabled]="!credForm.valid">{{'custom.confirmexistingpin.btn' | translate}}</button>
       </form>
     </div>

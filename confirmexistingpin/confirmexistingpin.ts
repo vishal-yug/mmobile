@@ -50,6 +50,8 @@ export class ConfirmexistingpinPage {
 
     this.credForm = fb.group({
       currentpin: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      setpin: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      confirmpin: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
     });
   }
 
@@ -153,7 +155,15 @@ export class ConfirmexistingpinPage {
    */
   confirmExistingPIN() {
 
-    const currentpin = this.credForm.value.currentpin
+    const currentpin = this.credForm.value.currentpin,
+      pin = this.credForm.value.setpin,
+      confirmpin = this.credForm.value.confirmpin;
+
+    if ((pin != confirmpin)) {
+      this.domUtils.showErrorModal("Confirm PIN doesn't match with the PIN you enter", true);
+
+      return;
+    }
 
     var siteid = this.sitesProvider.getCurrentSiteId();
 
@@ -166,7 +176,18 @@ export class ConfirmexistingpinPage {
       };
       return site.read('check_user_current_pin', params, preSets).then((data) => {
         if (data.status) {
-          this.navCtrl.push('SetpinPage');
+          const params = {
+            pin: pin
+          };
+          return site.write('set_user_pin', params).then((data) => {
+            if (data.status) {
+              this.navCtrl.push('CoreMainMenuPage');
+            } else {
+              this.domUtils.showErrorModal("There is an issue while setting up the PIN please try again after some time", true);
+            }
+          }).catch(() => {
+            // Unable to get mime type, assume it's not supported.
+          })
         } else {
           this.domUtils.showErrorModal("custom.invalidsexistingpin", true);
         }
