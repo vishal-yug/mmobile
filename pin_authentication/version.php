@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$plugin->version = 2019022600;
+$plugin->version = 2019022601;
 $plugin->requires = 2017051500;
 $plugin->component = 'local_pin_authentication';
 $plugin->maturity = MATURITY_STABLE;
