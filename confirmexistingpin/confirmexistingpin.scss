@@ -1,0 +1,31 @@
+page-confirmexistingpin {
+        .scroll-content {        
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    img.login-logo {
+        width: 90%;
+        max-width: 300px;
+    }
+    .core-loading-loaded{
+        background: $white;
+        border: 1px solid $core-login-box-background-border;
+    }
+    .box {
+        padding: 16px;
+        margin: 8px;        
+        color: $core-login-box-text-color;
+    }
+
+    .core-sitename, .core-siteurl {
+        @if $core-fixed-url { display: none; }
+    }
+
+    .item-input {
+        margin-bottom: 20px;
+    }
+
+}

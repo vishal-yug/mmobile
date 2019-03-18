@@ -126,7 +126,7 @@ export class CoreMainMenuMorePage implements OnDestroy {
      * Open settings page.
      */
     openPinSettingsPage(): void {
-        this.navCtrl.push('SetpinPage');
+        this.navCtrl.push('ConfirmexistingpinPage');
     }
 
     /**

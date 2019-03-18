@@ -22,6 +22,15 @@ $functions = array(
     'classpath' => 'local/pin_authentication/externallib.php',
     'description' => 'Set the user pin enter from the app',
     'type' => 'write',
-    'services'     => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
+    'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
+    ),
+  
+    'check_user_current_pin' => array(
+    'classname' => 'local_set_user_pin',
+    'methodname' => 'check_user_current_pin',
+    'classpath' => 'local/pin_authentication/externallib.php',
+    'description' => 'Check the existing pin of the user',
+    'type' => 'read',
+    'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     ),
 );

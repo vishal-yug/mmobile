@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar core-back-button>
+    <ion-title>{{'custom.confirmexistingpin.navtitle' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="core-center-view">
+  <core-loading [hideUntil]="pageLoaded">
+    <div class="box">
+      <h3 class="text-center"> {{'custom.confirmexistingpin.info' | translate}} </h3>
+      <form ion-list [formGroup]="credForm" (ngSubmit)="confirmExistingPIN()">
+        <ion-item>
+          <core-show-password item-content [name]="'currentpin'">
+            <ion-input class="core-ioninput-password" name="currentpin" type="password" placeholder="Your Current PIN"
+              formControlName="currentpin" core-show-password [clearOnEdit]="false"></ion-input>
+          </core-show-password>
+        </ion-item>
+        <button ion-button block [disabled]="!credForm.valid">{{'custom.confirmexistingpin.btn' | translate}}</button>
+      </form>
+    </div>
+  </core-loading>
+</ion-content>

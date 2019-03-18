@@ -1749,5 +1749,9 @@
     "custom.otpscreen.info": "Enter the 6-digit verification code to confirm you got the text message",
     "custom.setpin.navtitle": "Set your PIN",
     "custom.setpin.info": "Enter the 6-digit new PIN",
-    "custom.setpin.btn": "SET PIN"
+    "custom.setpin.btn": "SET PIN",
+    "custom.confirmexistingpin.navtitle": "Confirm Your Existing PIN",
+    "custom.confirmexistingpin.info": "Please enter your existing PIN to change your PIN",
+    "custom.confirmexistingpin.btn": "Confirm Existing PIN",
+    "custom.invalidsexistingpin": "Incorrect PIN"
 }
