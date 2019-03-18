@@ -34,8 +34,6 @@ export class SetpinPage {
   pageLoaded = false;
   isBrowserSSO = false;
   isFixedUrlSet = false;
-  setPinBtnLabel: string;
-  setPinTitle: string;
 
   protected siteConfig;
   protected eventThrown = false;
@@ -48,8 +46,6 @@ export class SetpinPage {
     private domUtils: CoreDomUtilsProvider, private translate: TranslateService, 
     private eventsProvider: CoreEventsProvider) {
 
-    this.setPinBtnLabel = 'Set Pin';
-    this.setPinTitle = 'Enter the 6-digit new PIN';
     this.credForm = fb.group({
       setpin: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
       confirmpin: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
